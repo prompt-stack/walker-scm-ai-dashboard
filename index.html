@@ -32,6 +32,37 @@
             text-align: center;
         }
 
+        .download-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #8B2332;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .download-btn:hover {
+            background: #6B1A26;
+        }
+
+        .download-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
         .logo-container {
             margin-bottom: 20px;
         }
@@ -181,6 +212,16 @@
             </div>
             <h1>AI Survey Results</h1>
             <p class="subtitle">AI Readiness & Adoption Analysis - November 2025</p>
+            <div class="download-buttons">
+                <a href="data.csv" download class="download-btn">
+                    <svg fill="currentColor" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+                    Download CSV
+                </a>
+                <a href="data.json" download class="download-btn">
+                    <svg fill="currentColor" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+                    Download JSON
+                </a>
+            </div>
         </header>
 
         <div class="stats-bar">
