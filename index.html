@@ -88,7 +88,7 @@
 
         .charts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));
             gap: 30px;
             margin-bottom: 30px;
         }
@@ -118,12 +118,57 @@
         }
 
         @media (max-width: 768px) {
-            .charts-grid {
-                grid-template-columns: 1fr;
+            body {
+                padding: 10px;
+            }
+
+            header {
+                padding: 20px 15px;
+            }
+
+            .logo-container img {
+                max-width: 200px;
             }
 
             h1 {
-                font-size: 1.8em;
+                font-size: 1.5em;
+            }
+
+            .subtitle {
+                font-size: 0.9em;
+            }
+
+            .stats-bar {
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 20px 15px;
+            }
+
+            .stat-number {
+                font-size: 2.5em;
+            }
+
+            .stat-label {
+                font-size: 0.85em;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .chart-container {
+                padding: 15px;
+            }
+
+            .chart-title {
+                font-size: 1em;
+            }
+
+            canvas {
+                max-height: 300px;
             }
         }
     </style>
