@@ -300,6 +300,16 @@
                 <h2 class="chart-title">Key Problems AI Can Solve (Top Themes from Open Responses)</h2>
                 <canvas id="problemsChart"></canvas>
             </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Frequency of Use by Function</h2>
+                <canvas id="frequencyByFunctionChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Frequency of Use by Age Group</h2>
+                <canvas id="frequencyByAgeChart"></canvas>
+            </div>
         </div>
 
         <div class="chart-container" style="background: #ffffff; padding: 25px; border-radius: 8px; border: 1px solid #e0e0e0; margin-bottom: 30px;">
@@ -770,6 +780,30 @@
             return themes;
         }
 
+        function processFrequencyByFunction() {
+            // Create a nested structure: { Function: { Frequency: count } }
+            const data = {};
+            surveyData.forEach(d => {
+                const func = d['Department / Function'];
+                const freq = d['Frequency of AI Tool Use'];
+                if (!data[func]) data[func] = {};
+                data[func][freq] = (data[func][freq] || 0) + 1;
+            });
+            return data;
+        }
+
+        function processFrequencyByAge() {
+            // Create a nested structure: { AgeRange: { Frequency: count } }
+            const data = {};
+            surveyData.forEach(d => {
+                const age = d['Age Range'];
+                const freq = d['Frequency of AI Tool Use'];
+                if (!data[age]) data[age] = {};
+                data[age][freq] = (data[age][freq] || 0) + 1;
+            });
+            return data;
+        }
+
         // Helper function to get sorted entries
         function getSortedEntries(obj, limit = null) {
             const sorted = Object.entries(obj).sort((a, b) => b[1] - a[1]);
@@ -1041,7 +1075,95 @@
             }
         });
 
-        // 10. Create theme cards
+        // 10. Frequency by Function Chart
+        const freqByFunctionData = processFrequencyByFunction();
+        const frequencies = ['Daily', 'Weekly', 'Occasionally (1-2 times per month)', 'Rarely (once or twice ever)'];
+        const functionLabels = Object.keys(freqByFunctionData);
+
+        const freqByFunctionDatasets = frequencies.map((freq, index) => ({
+            label: freq,
+            data: functionLabels.map(func => freqByFunctionData[func][freq] || 0),
+            backgroundColor: colors.primary[index % colors.primary.length],
+            borderRadius: 4,
+            borderWidth: 0
+        }));
+
+        new Chart(document.getElementById('frequencyByFunctionChart'), {
+            type: 'bar',
+            data: {
+                labels: functionLabels.map(label => {
+                    // Shorten labels for better display
+                    if (label.includes('Executive Leadership')) return 'Executive';
+                    if (label.includes('Operations')) return 'Operations';
+                    if (label.includes('Human Resources')) return 'HR';
+                    if (label.includes('IT')) return 'IT';
+                    return label;
+                }),
+                datasets: freqByFunctionDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 15, font: { size: 11 } }
+                    }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    }
+                }
+            }
+        });
+
+        // 11. Frequency by Age Group Chart
+        const freqByAgeData = processFrequencyByAge();
+        const ageLabels = Object.keys(freqByAgeData).sort((a, b) => {
+            // Custom sort to put age ranges in order
+            const order = ['35–44', '45–54', '55-64', '65 or older', 'Prefer not to say'];
+            return order.indexOf(a) - order.indexOf(b);
+        });
+
+        const freqByAgeDatasets = frequencies.map((freq, index) => ({
+            label: freq,
+            data: ageLabels.map(age => freqByAgeData[age][freq] || 0),
+            backgroundColor: colors.primary[index % colors.primary.length],
+            borderRadius: 4,
+            borderWidth: 0
+        }));
+
+        new Chart(document.getElementById('frequencyByAgeChart'), {
+            type: 'bar',
+            data: {
+                labels: ageLabels,
+                datasets: freqByAgeDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 15, font: { size: 11 } }
+                    }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    }
+                }
+            }
+        });
+
+        // 12. Create theme cards
         const themesGrid = document.getElementById('themesGrid');
         problemsSorted.slice(0, 6).forEach((theme, index) => {
             const card = document.createElement('div');
