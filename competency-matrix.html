@@ -5,108 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Walker SCM - AI Competency Matrix Assessment</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="shared-nav.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #ffffff;
-            padding: 20px;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            background: #f8f9fa;
-            padding: 30px;
-            border-bottom: 3px solid #8B2332;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .logo-container {
-            margin-bottom: 20px;
-        }
-
-        .logo-container img {
-            max-width: 300px;
-            height: auto;
-        }
-
-        h1 {
-            color: #8B2332;
-            font-size: 2.2em;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #666;
-            font-size: 1.1em;
-            margin-bottom: 20px;
-        }
-
         .assessment-summary {
             background: #ffffff;
             padding: 30px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border-radius: 8px;
             border: 2px solid #8B2332;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-
         .assessment-summary h2 {
             color: #8B2332;
-            font-size: 1.8em;
-            margin-bottom: 15px;
+            font-size: 1.6em;
+            margin-bottom: 10px;
         }
-
         .assessment-summary p {
             font-size: 1.1em;
             color: #666;
         }
-
         .chart-section {
             background: #ffffff;
             padding: 30px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-
         .chart-container {
             max-width: 600px;
             margin: 0 auto 40px;
         }
-
         .swim-lanes {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
-            gap: 30px;
-            margin-top: 30px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
-
         .swim-lane-card {
-            background: #f8f9fa;
+            background: #ffffff;
             padding: 25px;
             border-radius: 8px;
             border-left: 4px solid #8B2332;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-
         .swim-lane-card h3 {
             color: #8B2332;
-            font-size: 1.4em;
+            font-size: 1.3em;
             margin-bottom: 15px;
         }
-
         .level-indicator {
             background: #8B2332;
             color: white;
@@ -115,142 +62,89 @@
             font-weight: 600;
             display: inline-block;
             margin-bottom: 15px;
+            font-size: 0.9em;
         }
-
         .evidence-list {
             margin-top: 15px;
+            margin-left: 20px;
         }
-
         .evidence-list li {
             margin-bottom: 10px;
-            padding-left: 5px;
         }
-
         .level-definitions {
             background: #ffffff;
             padding: 30px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-
         .level-definitions h2 {
             color: #8B2332;
-            font-size: 1.5em;
+            font-size: 1.4em;
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid #8B2332;
         }
-
         .level-def {
             margin-bottom: 20px;
             padding: 15px;
             background: #f8f9fa;
             border-radius: 6px;
         }
-
         .level-def h4 {
             color: #8B2332;
             margin-bottom: 8px;
         }
-
-        .nav-links {
-            background: #f8f9fa;
-            padding: 20px;
+        .opportunities-box {
+            background: #ffffff;
+            padding: 25px;
             border-radius: 8px;
-            margin-bottom: 30px;
-            text-align: center;
+            border-left: 4px solid #8B2332;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-
-        .nav-links a {
-            display: inline-block;
-            margin: 5px 10px;
-            padding: 10px 20px;
-            background: #8B2332;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: background 0.2s;
+        .opportunities-box h3 {
+            color: #8B2332;
+            margin-bottom: 15px;
         }
-
-        .nav-links a:hover {
-            background: #6B1A26;
+        .opportunities-box ol {
+            margin-left: 20px;
         }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 24px;
-            background: #8B2332;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-
-        .back-link:hover {
-            background: #6B1A26;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
-            header {
-                padding: 20px 15px;
-            }
-
-            .logo-container img {
-                max-width: 200px;
-            }
-
-            h1 {
-                font-size: 1.5em;
-            }
-
-            .subtitle {
-                font-size: 0.9em;
-            }
-
-            .assessment-summary {
-                padding: 20px 15px;
-            }
-
-            .assessment-summary h2 {
-                font-size: 1.3em;
-            }
-
-            .chart-section {
-                padding: 20px 15px;
-            }
-
-            .swim-lane-card {
-                padding: 20px 15px;
-            }
-
-            .level-definitions {
-                padding: 20px 15px;
-            }
+        .opportunities-box li {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo-container">
-                <img src="logo.png" alt="Walker SCM Logo">
-            </div>
-            <h1>AI Competency Matrix Assessment</h1>
-            <p class="subtitle">Walker SCM Team Readiness Evaluation - November 2025</p>
-        </header>
-
-        <div class="nav-links">
-            <a href="index.html">Survey Dashboard</a>
+    <nav class="sidebar">
+        <div class="sidebar-header"><img src="assets/logo.png" alt="Walker SCM"></div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Dashboard</div>
+            <a href="index.html">Survey Results</a>
             <a href="insights.html">Key Insights</a>
+            <a href="competency-matrix.html" class="active">Competency Matrix</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">FWI Strategy</div>
+            <a href="fwi-strategy.html">Strategy Overview</a>
+            <a href="slides.html">Presentation (52 slides)</a>
+            <a href="training-plan.html">Training Plan</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Organization</div>
+            <a href="org-chart.html">Org Chart</a>
             <a href="presentation-outline.html">Presentation Outline</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Data</div>
+            <a href="data/data.csv" download>Download CSV</a>
+            <a href="data/data.json" download>Download JSON</a>
+        </div>
+    </nav>
+    <main class="main-content">
+        <div class="page-header">
+            <h1>AI Competency Matrix Assessment</h1>
+            <p>Walker SCM Team Readiness Evaluation - November 2025</p>
         </div>
 
         <div class="assessment-summary">
@@ -259,7 +153,7 @@
         </div>
 
         <div class="chart-section">
-            <h2 style="color: #8B2332; font-size: 1.5em; margin-bottom: 25px; text-align: center;">Current Competency Levels</h2>
+            <h2 style="color: #8B2332; font-size: 1.4em; margin-bottom: 25px; text-align: center;">Current Competency Levels</h2>
             <div class="chart-container">
                 <canvas id="competencyRadar"></canvas>
             </div>
@@ -273,7 +167,6 @@
                 <h3>Conceptual Understanding</h3>
                 <div class="level-indicator">Pre-Beginner to Beginner (2.5/5)</div>
                 <p style="margin-bottom: 15px;">Understanding what AI is and how it works conceptually.</p>
-
                 <strong>Evidence from Survey:</strong>
                 <ul class="evidence-list">
                     <li>High comfort level (8.7/10) shows awareness and willingness to learn</li>
@@ -281,7 +174,6 @@
                     <li>Limited tool variety (mostly ChatGPT/Copilot) suggests narrow understanding of AI ecosystem</li>
                     <li>Some respondents indicate "I don't know where to start"</li>
                 </ul>
-
                 <strong style="display: block; margin-top: 15px;">Next Level:</strong>
                 <p>Move to Beginner/Intermediate by understanding how different AI models work, their training data sources, and appropriate use cases.</p>
             </div>
@@ -290,7 +182,6 @@
                 <h3>Operational Skills</h3>
                 <div class="level-indicator">Beginner (2.5-3/5)</div>
                 <p style="margin-bottom: 15px;">Knowing how to use AI tools effectively in daily work.</p>
-
                 <strong>Evidence from Survey:</strong>
                 <ul class="evidence-list">
                     <li>35% daily users + 30% weekly users = 65% regular usage</li>
@@ -298,7 +189,6 @@
                     <li>Active informal experimentation across departments (70%)</li>
                     <li>Clear understanding that AI can save time on admin tasks</li>
                 </ul>
-
                 <strong style="display: block; margin-top: 15px;">Next Level:</strong>
                 <p>Move to Intermediate by exploring diverse AI tools, developing power-user skills, and establishing consistent workflows.</p>
             </div>
@@ -307,7 +197,6 @@
                 <h3>Governance & Ethics</h3>
                 <div class="level-indicator">Pre-Beginner (1.5-2/5)</div>
                 <p style="margin-bottom: 15px;">Having systems and policies for responsible AI use.</p>
-
                 <strong>Evidence from Survey:</strong>
                 <ul class="evidence-list">
                     <li>70% report "individual staff experimenting informally" - no organizational framework</li>
@@ -315,7 +204,6 @@
                     <li>Interest in "Understanding AI ethics, data security and best practices" as priority</li>
                     <li>No formal governance structure mentioned in survey responses</li>
                 </ul>
-
                 <strong style="display: block; margin-top: 15px;">Next Level:</strong>
                 <p>Move to Beginner by establishing basic AI usage policies, data handling guidelines, and risk mitigation strategies.</p>
             </div>
@@ -323,33 +211,28 @@
 
         <div class="level-definitions">
             <h2>Competency Level Definitions</h2>
-
             <div class="level-def">
                 <h4>Level 1: No Exposure</h4>
                 <p>Haven't yet seen, handled, or managed any generative AI system. No experience across any swim lane.</p>
             </div>
-
             <div class="level-def">
                 <h4>Level 2: Pre-Beginner</h4>
                 <p><strong>Conceptual:</strong> Aware of AI, used it a couple times.<br>
                 <strong>Operational:</strong> Occasional use, not sure how to maximize effectiveness.<br>
                 <strong>Governance:</strong> No governance framework or policies in place.</p>
             </div>
-
             <div class="level-def">
                 <h4>Level 3: Beginner</h4>
                 <p><strong>Conceptual:</strong> Understand basic input/output mechanics, know AI can save time.<br>
                 <strong>Operational:</strong> Active usage cadence (weekly/daily), multiple use cases, feel comfortable with technology.<br>
                 <strong>Governance:</strong> Basic awareness of risks, starting to consider data privacy and accuracy concerns.</p>
             </div>
-
             <div class="level-def">
                 <h4>Level 4: Intermediate</h4>
                 <p><strong>Conceptual:</strong> Power user who understands how AI models work, can explain training data and generation process, familiar with several tools.<br>
                 <strong>Operational:</strong> Daily usage across multiple tools, diverse use cases, can troubleshoot issues.<br>
                 <strong>Governance:</strong> Established guidelines for appropriate use, data handling protocols, basic risk mitigation strategies.</p>
             </div>
-
             <div class="level-def">
                 <h4>Level 5: Advanced</h4>
                 <p><strong>Conceptual:</strong> Understand training data, non-deterministic nature of AI, limitations and capabilities across different models.<br>
@@ -358,25 +241,18 @@
             </div>
         </div>
 
-        <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 4px solid #8B2332; margin-bottom: 30px;">
-            <h3 style="color: #8B2332; margin-bottom: 15px;">Key Opportunities for Growth</h3>
-            <ol style="margin-left: 20px;">
-                <li style="margin-bottom: 10px;"><strong>Conceptual Development:</strong> Provide education on AI fundamentals, model types, and appropriate use cases to build deeper understanding.</li>
-                <li style="margin-bottom: 10px;"><strong>Operational Excellence:</strong> Expand tool awareness beyond ChatGPT/Copilot, develop power-user skills, and create consistent workflows for high-value use cases.</li>
-                <li style="margin-bottom: 10px;"><strong>Governance Foundation:</strong> Establish clear AI usage policies, data handling guidelines, and risk mitigation strategies to move from informal experimentation to structured adoption.</li>
-                <li style="margin-bottom: 10px;"><strong>Leverage Informal Experimentation:</strong> Identify and scale successful pilot efforts happening across the organization (70% experimenting informally).</li>
+        <div class="opportunities-box">
+            <h3>Key Opportunities for Growth</h3>
+            <ol>
+                <li><strong>Conceptual Development:</strong> Provide education on AI fundamentals, model types, and appropriate use cases to build deeper understanding.</li>
+                <li><strong>Operational Excellence:</strong> Expand tool awareness beyond ChatGPT/Copilot, develop power-user skills, and create consistent workflows for high-value use cases.</li>
+                <li><strong>Governance Foundation:</strong> Establish clear AI usage policies, data handling guidelines, and risk mitigation strategies to move from informal experimentation to structured adoption.</li>
+                <li><strong>Leverage Informal Experimentation:</strong> Identify and scale successful pilot efforts happening across the organization (70% experimenting informally).</li>
             </ol>
         </div>
 
-        <div style="text-align: center; margin-top: 40px;">
-            <a href="index.html" class="back-link">← Back to Dashboard</a>
-        </div>
-    </div>
-
     <script>
-        // Create radar chart showing competency levels
         const ctx = document.getElementById('competencyRadar').getContext('2d');
-
         new Chart(ctx, {
             type: 'radar',
             data: {
@@ -421,35 +297,20 @@
                                 const labels = ['', 'No Exposure', 'Pre-Beginner', 'Beginner', 'Intermediate', 'Advanced'];
                                 return labels[value] || value;
                             },
-                            font: {
-                                size: 11
-                            }
+                            font: { size: 11 }
                         },
                         pointLabels: {
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            },
+                            font: { size: 14, weight: 'bold' },
                             color: '#333'
                         },
-                        grid: {
-                            color: '#e0e0e0'
-                        },
-                        angleLines: {
-                            color: '#e0e0e0'
-                        }
+                        grid: { color: '#e0e0e0' },
+                        angleLines: { color: '#e0e0e0' }
                     }
                 },
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: {
-                            padding: 20,
-                            font: {
-                                size: 13
-                            },
-                            usePointStyle: true
-                        }
+                        labels: { padding: 20, font: { size: 13 }, usePointStyle: true }
                     },
                     tooltip: {
                         callbacks: {
@@ -465,5 +326,6 @@
             }
         });
     </script>
+    </main>
 </body>
 </html>

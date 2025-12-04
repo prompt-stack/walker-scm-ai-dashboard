@@ -4,21 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Walker SCM - 2026 AI Training Plan</title>
+    <link rel="stylesheet" href="shared-nav.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #ffffff;
-            padding: 20px;
-            line-height: 1.6;
-            color: #333;
-        }
-
+        /* Page-specific styles - base handled by shared-nav.css */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -82,7 +70,7 @@
 
         .key-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -96,14 +84,14 @@
         }
 
         .stat-number {
-            font-size: 3em;
+            font-size: 2.5em;
             font-weight: bold;
             color: #8B2332;
             margin-bottom: 10px;
         }
 
         .stat-label {
-            font-size: 0.95em;
+            font-size: 0.9em;
             color: #666;
         }
 
@@ -130,43 +118,158 @@
             margin-bottom: 15px;
         }
 
-        .quarter-block {
-            background: #f8f9fa;
-            padding: 25px;
+        .cohort-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             margin: 20px 0;
-            border-left: 5px solid #8B2332;
-            border-radius: 4px;
         }
 
-        .cohort-table {
+        .cohort-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #8B2332;
+        }
+
+        .cohort-card.primary {
+            border-left-color: #8B2332;
+        }
+
+        .cohort-card.secondary {
+            border-left-color: #6B7280;
+        }
+
+        .cohort-card.tertiary {
+            border-left-color: #9CA3AF;
+        }
+
+        .cohort-card h4 {
+            color: #8B2332;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .cohort-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cohort-meta span {
+            background: #8B2332;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+
+        .cohort-card ul {
+            margin-left: 20px;
+        }
+
+        .cohort-card li {
+            margin-bottom: 8px;
+        }
+
+        .curriculum-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
         }
 
-        .cohort-table th,
-        .cohort-table td {
-            padding: 12px;
+        .curriculum-table th,
+        .curriculum-table td {
+            padding: 15px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
         }
 
-        .cohort-table th {
+        .curriculum-table th {
             background: #8B2332;
             color: white;
             font-weight: 600;
         }
 
-        .cohort-table tr:hover {
+        .curriculum-table tr:hover {
             background: #f8f9fa;
+        }
+
+        .timeline-visual {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .timeline-phase {
+            flex: 1;
+            min-width: 200px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 4px solid #8B2332;
+        }
+
+        .timeline-phase h4 {
+            color: #8B2332;
+            margin-bottom: 10px;
+        }
+
+        .timeline-phase ul {
+            margin-left: 15px;
+            font-size: 0.9em;
+        }
+
+        .timeline-phase li {
+            margin-bottom: 5px;
         }
 
         .highlight {
             background: #fff3cd;
-            padding: 15px;
+            padding: 20px;
             border-left: 4px solid #ffc107;
             margin: 20px 0;
             border-radius: 4px;
+        }
+
+        .train-trainer-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .trainer-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .trainer-box {
+            background: #8B2332;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 180px;
+        }
+
+        .trainer-box.secondary {
+            background: #6B7280;
+        }
+
+        .trainer-arrow {
+            font-size: 1.5em;
+            color: #8B2332;
+        }
+
+        .trainer-result {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
         }
 
         ul, ol {
@@ -202,374 +305,397 @@
             .section {
                 padding: 20px;
             }
+
+            .trainer-row {
+                flex-direction: column;
+            }
+
+            .trainer-arrow {
+                transform: rotate(90deg);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>2026 AI Training Plan</h1>
-            <p class="subtitle">Scaling AI Literacy Across 1,200 Knowledge Workers</p>
-            <p style="margin-top: 15px; font-size: 0.95em;">Walker SCM | Functional Cohort Training Strategy</p>
-        </header>
-
-        <div class="nav-links">
-            <a href="index.html">Survey Dashboard</a>
+    <nav class="sidebar">
+        <div class="sidebar-header"><img src="assets/logo.png" alt="Walker SCM"></div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Dashboard</div>
+            <a href="index.html">Survey Results</a>
             <a href="insights.html">Key Insights</a>
             <a href="competency-matrix.html">Competency Matrix</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">FWI Strategy</div>
+            <a href="fwi-strategy.html">Strategy Overview</a>
+            <a href="slides.html">Presentation (52 slides)</a>
+            <a href="training-plan.html" class="active">Training Plan</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Organization</div>
+            <a href="org-chart.html">Org Chart</a>
             <a href="presentation-outline.html">Presentation Outline</a>
         </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Data</div>
+            <a href="data/data.csv" download>Download CSV</a>
+            <a href="data/data.json" download>Download JSON</a>
+        </div>
+    </nav>
+    <main class="main-content">
+        <div class="container">
+            <header>
+                <h1>2026 AI Training Plan</h1>
+            <p class="subtitle">Three-Cohort Model for Walker SCM</p>
+            <p style="margin-top: 15px; font-size: 0.95em;">Cabinet | Management | Individual Contributors</p>
+        </header>
 
         <div class="summary-box">
             <h2>Training Overview</h2>
-            <p><strong>Goal:</strong> Train all 1,200 knowledge workers in AI literacy and practical usage by end of 2026</p>
-            <p><strong>Approach:</strong> Functional cohort-based training with hands-on practice and pilot projects</p>
-            <p><strong>Timeline:</strong> 4 quarters (Q1-Q4 2026) with phased rollout</p>
+            <p><strong>Goal:</strong> Train Cabinet and Management in Q1, then roll out broader training through train-the-trainer model</p>
+            <p><strong>Approach:</strong> Three cohorts with tailored curriculum for each tier</p>
+            <p><strong>Philosophy:</strong> Foundations in AI first, then department-specific workflow discovery</p>
         </div>
 
         <div class="key-stats">
             <div class="stat-card">
-                <div class="stat-number">1,200</div>
-                <div class="stat-label">Knowledge Workers</div>
+                <div class="stat-number">3</div>
+                <div class="stat-label">Training Cohorts</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">40</div>
-                <div class="stat-label">Total Cohorts</div>
+                <div class="stat-number">~12</div>
+                <div class="stat-label">Cabinet Members</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">30</div>
-                <div class="stat-label">People per Cohort</div>
+                <div class="stat-number">~25-35</div>
+                <div class="stat-label">Management Layer</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">3 hrs</div>
-                <div class="stat-label">Per Session</div>
+                <div class="stat-number">~860</div>
+                <div class="stat-label">Individual Contributors</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Q1</div>
+                <div class="stat-label">Training Starts</div>
             </div>
         </div>
 
-        <!-- Cohort Structure -->
+        <!-- Three Cohorts -->
         <div class="section">
-            <h2>Cohort Structure & Logistics</h2>
+            <h2>The Three Cohorts</h2>
 
-            <h3>Cohort Size & Format</h3>
-            <ul>
-                <li><strong>Cohort Size:</strong> 30 participants (optimal for interaction and engagement)</li>
-                <li><strong>Session Length:</strong> 3 hours (half-day workshop)</li>
-                <li><strong>Format:</strong> Hybrid (in-person preferred, virtual option available)</li>
-                <li><strong>Frequency:</strong> 3 cohorts per week (Tue/Wed/Thu)</li>
-                <li><strong>Follow-up:</strong> 2-hour advanced session 4 weeks later</li>
-            </ul>
+            <div class="cohort-grid">
+                <div class="cohort-card primary">
+                    <h4>Cohort 1: Cabinet</h4>
+                    <div class="cohort-meta">
+                        <span>~12 people</span>
+                        <span>Q1 2026</span>
+                    </div>
+                    <p><strong>Who:</strong> C-Suite + VPs (budget holders)</p>
+                    <p><strong>Training:</strong> Strategic AI for Executives</p>
+                    <ul>
+                        <li>Evolution of Intelligence</li>
+                        <li>Traditional AI vs Generative AI</li>
+                        <li>Large Language Models</li>
+                        <li>Prompts & Prompt Engineering</li>
+                        <li>Vendor Selection & Ecosystem</li>
+                    </ul>
+                    <p><strong>Outcome:</strong> Strategic alignment, budget decisions, sponsor AI initiatives</p>
+                </div>
 
-            <h3>Training Capacity Calculation</h3>
-            <table class="cohort-table">
+                <div class="cohort-card secondary">
+                    <h4>Cohort 2: Management (Non-Warehouse)</h4>
+                    <div class="cohort-meta">
+                        <span>~15-20 people</span>
+                        <span>Q1 2026</span>
+                    </div>
+                    <p><strong>Who:</strong> Directors + Managers in corporate functions, freight forwarding</p>
+                    <p><strong>Training:</strong> Foundations in AI + Workflow Discovery</p>
+                    <ul>
+                        <li>Module 1: Evolution of Intelligence</li>
+                        <li>Module 2: Traditional AI vs Generative AI</li>
+                        <li>Module 3: Large Language Models</li>
+                        <li>Module 4: Prompts & Prompt Engineering</li>
+                        <li>+ Department-Specific Workflows</li>
+                    </ul>
+                    <p><strong>Outcome:</strong> Submit FWI requests, map workflows, train their teams</p>
+                </div>
+
+                <div class="cohort-card tertiary">
+                    <h4>Cohort 3: Management (Warehouse)</h4>
+                    <div class="cohort-meta">
+                        <span>~10-15 people</span>
+                        <span>Q1 2026</span>
+                    </div>
+                    <p><strong>Who:</strong> Regional Managers, Site Supervisors</p>
+                    <p><strong>Training:</strong> Foundations in AI + Workflow Discovery</p>
+                    <ul>
+                        <li>Same 4-module foundation</li>
+                        <li>Warehouse-specific use cases</li>
+                        <li>Mobile-first considerations</li>
+                        <li>Regional operations focus</li>
+                    </ul>
+                    <p><strong>Outcome:</strong> Submit FWI requests, map warehouse workflows, train floor teams</p>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <strong>Location Consideration:</strong> Need to determine where warehouse managers are located (distributed across sites?) to plan in-person vs. virtual training.
+            </div>
+        </div>
+
+        <!-- Curriculum -->
+        <div class="section">
+            <h2>Curriculum Structure</h2>
+
+            <h3>Foundations in AI (All Cohorts Get This)</h3>
+            <table class="curriculum-table">
                 <tr>
-                    <th>Metric</th>
-                    <th>Calculation</th>
-                    <th>Result</th>
+                    <th>Module</th>
+                    <th>Topic</th>
+                    <th>Duration</th>
+                    <th>Key Outcomes</th>
                 </tr>
                 <tr>
-                    <td>Total Cohorts Needed</td>
-                    <td>1,200 workers ÷ 30 per cohort</td>
-                    <td><strong>40 cohorts</strong></td>
+                    <td>1</td>
+                    <td>Evolution of Intelligence</td>
+                    <td>10-15 min</td>
+                    <td>Context for where AI came from and where it's going</td>
                 </tr>
                 <tr>
-                    <td>Cohorts per Week</td>
-                    <td>3 sessions (Tue, Wed, Thu)</td>
-                    <td><strong>3 per week</strong></td>
+                    <td>2</td>
+                    <td>Traditional AI vs Generative AI</td>
+                    <td>30 min</td>
+                    <td>Understand the difference and why GenAI matters now</td>
                 </tr>
                 <tr>
-                    <td>Weeks Required</td>
-                    <td>40 cohorts ÷ 3 per week</td>
-                    <td><strong>~13 weeks per quarter</strong></td>
+                    <td>3</td>
+                    <td>Large Language Models</td>
+                    <td>45 min</td>
+                    <td>How LLMs work, capabilities and limitations</td>
                 </tr>
                 <tr>
-                    <td>Total Training Hours</td>
-                    <td>40 cohorts × 3 hours</td>
-                    <td><strong>120 hours delivery</strong></td>
+                    <td>4</td>
+                    <td>Prompts & Prompt Engineering</td>
+                    <td>90 min</td>
+                    <td>Hands-on practice writing effective prompts</td>
                 </tr>
             </table>
 
-            <div class="highlight">
-                <strong>Reality Check:</strong> With 3 cohorts per week, we can train 360 people per quarter (12 cohorts × 30).
-                This means we need 3+ quarters to reach all 1,200 knowledge workers.
-            </div>
-        </div>
+            <p><strong>Total Foundation Time:</strong> ~3 hours</p>
 
-        <!-- Quarterly Breakdown -->
-        <div class="section">
-            <h2>Quarterly Training Roadmap</h2>
-
-            <div class="quarter-block">
-                <h3>Q1 2026: Executive & First Functional Cohort (Jan-Mar)</h3>
-                <p><strong>Target:</strong> ~150 people trained</p>
-                <ul>
-                    <li><strong>Week 1-2:</strong> Executive cohort (half-day intensive)
-                        <ul>
-                            <li>C-Suite and VPs (approximately 13 executives based on survey)</li>
-                            <li>Focus: Strategic understanding, governance, cultural leadership</li>
-                        </ul>
-                    </li>
-                    <li><strong>Week 3-4:</strong> Organizational diagnostic
-                        <ul>
-                            <li>Identify high-impact functional areas</li>
-                            <li>Interview department heads</li>
-                            <li>Map workflows and pain points</li>
-                        </ul>
-                    </li>
-                    <li><strong>Week 5-12:</strong> First pilot cohort (one high-impact function)
-                        <ul>
-                            <li>4 cohorts × 30 people = 120 people</li>
-                            <li>Likely candidates: Business Development, Finance, or Operations leadership</li>
-                            <li>Intensive training + 4-week pilot project</li>
-                        </ul>
-                    </li>
-                    <li><strong>Week 13:</strong> Q1 review, refine approach</li>
-                </ul>
-                <p><strong>Deliverables:</strong> Governance framework, prompt library v1, pilot use cases identified</p>
-            </div>
-
-            <div class="quarter-block">
-                <h3>Q2 2026: Two More Functional Cohorts (Apr-Jun)</h3>
-                <p><strong>Target:</strong> ~360 people trained (cumulative: 510)</p>
-                <ul>
-                    <li><strong>Week 1-13:</strong> Roll out to 2 additional functional areas
-                        <ul>
-                            <li>12 cohorts × 30 people = 360 people</li>
-                            <li>Function selection based on Q1 diagnostic</li>
-                            <li>Examples: Operations, IT, Human Resources</li>
-                        </ul>
-                    </li>
-                    <li><strong>Ongoing:</strong> Q1 cohort advanced training
-                        <ul>
-                            <li>2-hour follow-up sessions</li>
-                            <li>Share pilot learnings</li>
-                            <li>Build function-specific prompt libraries</li>
-                        </ul>
-                    </li>
-                    <li><strong>Focus groups:</strong> Monthly check-ins with each functional cohort</li>
-                </ul>
-                <p><strong>Deliverables:</strong> 3 functional prompt libraries, 3 pilot use cases documented</p>
-            </div>
-
-            <div class="quarter-block">
-                <h3>Q3 2026: Organization-Wide Rollout (Jul-Sep)</h3>
-                <p><strong>Target:</strong> ~360 people trained (cumulative: 870)</p>
-                <ul>
-                    <li><strong>Week 1-13:</strong> Continue functional cohort training
-                        <ul>
-                            <li>12 cohorts × 30 people = 360 people</li>
-                            <li>Mix of remaining functional areas</li>
-                            <li>Leverage internal champions from Q1-Q2</li>
-                        </ul>
-                    </li>
-                    <li><strong>Trainer development:</strong>
-                        <ul>
-                            <li>Train 5-10 internal trainers from Q1-Q2 graduates</li>
-                            <li>Begin co-facilitation model</li>
-                        </ul>
-                    </li>
-                    <li><strong>Data security:</strong> Azure infrastructure deployment</li>
-                </ul>
-                <p><strong>Deliverables:</strong> 50%+ workforce trained, internal trainer program established</p>
-            </div>
-
-            <div class="quarter-block">
-                <h3>Q4 2026: Complete Rollout & Measure (Oct-Dec)</h3>
-                <p><strong>Target:</strong> ~330 people trained (total: 1,200)</p>
-                <ul>
-                    <li><strong>Week 1-11:</strong> Final cohorts
-                        <ul>
-                            <li>11 cohorts × 30 people = 330 people</li>
-                            <li>All remaining knowledge workers</li>
-                            <li>Internal trainers lead 50%+ of sessions</li>
-                        </ul>
-                    </li>
-                    <li><strong>Week 12-13:</strong> Year-end assessment
-                        <ul>
-                            <li>Measure adoption rates across all cohorts</li>
-                            <li>Document ROI from pilot projects</li>
-                            <li>Survey participants for feedback</li>
-                            <li>Plan 2027 advanced training</li>
-                        </ul>
-                    </li>
-                </ul>
-                <p><strong>Deliverables:</strong> 100% knowledge workers trained, success metrics documented, 2027 roadmap</p>
-            </div>
-        </div>
-
-        <!-- Training Content -->
-        <div class="section">
-            <h2>Training Curriculum</h2>
-
-            <h3>Session 1: Core AI Literacy (3 hours)</h3>
-            <ul>
-                <li><strong>Hour 1: Foundations</strong>
-                    <ul>
-                        <li>What is AI? How does it work?</li>
-                        <li>Walker SCM's AI strategy and vision</li>
-                        <li>Tools overview: ChatGPT, Claude, Copilot</li>
-                        <li>Governance and responsible use</li>
-                    </ul>
-                </li>
-                <li><strong>Hour 2: Hands-On Practice</strong>
-                    <ul>
-                        <li>Writing effective prompts</li>
-                        <li>Real Walker SCM use cases</li>
-                        <li>Live exercises with your work</li>
-                        <li>Common pitfalls and how to avoid them</li>
-                    </ul>
-                </li>
-                <li><strong>Hour 3: Function-Specific Applications</strong>
-                    <ul>
-                        <li>Department-specific use cases</li>
-                        <li>Workflow integration strategies</li>
-                        <li>30-day practice challenge</li>
-                        <li>Q&A and troubleshooting</li>
-                    </ul>
-                </li>
-            </ul>
-
-            <h3>Session 2: Advanced Applications (2 hours, 4 weeks later)</h3>
-            <ul>
-                <li>Share successes and challenges from practice period</li>
-                <li>Advanced prompting techniques</li>
-                <li>Multi-tool workflows</li>
-                <li>Building your personal prompt library</li>
-                <li>Pilot project opportunities</li>
-            </ul>
-        </div>
-
-        <!-- Resource Requirements -->
-        <div class="section">
-            <h2>Resource Requirements</h2>
-
-            <h3>Training Team</h3>
-            <ul>
-                <li><strong>Q1:</strong> 1-2 external trainers + 1 internal coordinator</li>
-                <li><strong>Q2:</strong> 2 external trainers + 2 internal coordinators + 3 internal co-facilitators</li>
-                <li><strong>Q3-Q4:</strong> 1 external trainer + 5-10 internal trainers</li>
-            </ul>
-
-            <h3>Technology & Tools</h3>
-            <ul>
-                <li>Training room with projector and WiFi (in-person sessions)</li>
-                <li>Video conferencing platform (virtual sessions)</li>
-                <li>Learning management system for materials</li>
-                <li>AI tool licenses (ChatGPT Plus, Claude Pro as needed)</li>
-                <li>Azure secure workspace (deployed Q3)</li>
-            </ul>
-
-            <h3>Budget Estimate</h3>
-            <table class="cohort-table">
+            <h3>Cabinet-Specific Addition</h3>
+            <table class="curriculum-table">
                 <tr>
-                    <th>Item</th>
-                    <th>Cost</th>
-                    <th>Notes</th>
+                    <th>Topic</th>
+                    <th>Duration</th>
+                    <th>Key Outcomes</th>
                 </tr>
                 <tr>
-                    <td>External Training (Q1-Q3)</td>
-                    <td>$80K-120K</td>
-                    <td>Decreases as internal capacity grows</td>
+                    <td>Vendor Selection & Ecosystem Intelligence</td>
+                    <td>60 min</td>
+                    <td>Evaluate platforms, understand market landscape</td>
                 </tr>
                 <tr>
-                    <td>Internal Trainer Time</td>
-                    <td>$40K-60K</td>
-                    <td>Opportunity cost (loaded cost)</td>
-                </tr>
-                <tr>
-                    <td>Materials & Platform</td>
-                    <td>$10K-15K</td>
-                    <td>LMS, workbooks, resources</td>
-                </tr>
-                <tr>
-                    <td>Tool Licenses (pilot users)</td>
-                    <td>$20K-30K</td>
-                    <td>50-100 power users with paid tools</td>
-                </tr>
-                <tr>
-                    <td><strong>Total 2026 Training Budget</strong></td>
-                    <td><strong>$150K-225K</strong></td>
-                    <td>Investment in 1,200 knowledge workers</td>
+                    <td>AI Governance & Risk</td>
+                    <td>30 min</td>
+                    <td>Data privacy, security, responsible AI principles</td>
                 </tr>
             </table>
 
-            <div class="highlight">
-                <strong>ROI Context:</strong> $150K-225K investment to train 1,200 workers = $125-188 per person.
-                If each person saves 2 hours per week through AI usage, that's $2-3M in annual productivity value.
+            <h3>Management-Specific Addition</h3>
+            <table class="curriculum-table">
+                <tr>
+                    <th>Topic</th>
+                    <th>Duration</th>
+                    <th>Key Outcomes</th>
+                </tr>
+                <tr>
+                    <td>Workflow Mapping & Discovery</td>
+                    <td>90 min</td>
+                    <td>How to document processes and identify friction points</td>
+                </tr>
+                <tr>
+                    <td>Department-Specific Use Cases</td>
+                    <td>90 min</td>
+                    <td>Relevant examples for their function</td>
+                </tr>
+                <tr>
+                    <td>Training Your Team</td>
+                    <td>60 min</td>
+                    <td>How to cascade learning to direct reports</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Train the Trainer -->
+        <div class="section">
+            <h2>Train-the-Trainer Model</h2>
+            <p>How training scales beyond the initial cohorts.</p>
+
+            <div class="train-trainer-visual">
+                <div class="trainer-row">
+                    <div class="trainer-box">
+                        <strong>External Trainer</strong>
+                        <p>(Rudi AI)</p>
+                    </div>
+                    <span class="trainer-arrow">→</span>
+                    <div class="trainer-result">
+                        <strong>Trains Cabinet (12 people)</strong>
+                        <p>Strategic AI for Executives</p>
+                    </div>
+                </div>
+
+                <div class="trainer-row">
+                    <div class="trainer-box">
+                        <strong>External Trainer</strong>
+                        <p>(Rudi AI)</p>
+                    </div>
+                    <span class="trainer-arrow">→</span>
+                    <div class="trainer-result">
+                        <strong>Trains Management (25-35 people)</strong>
+                        <p>Foundations in AI + Workflow Discovery</p>
+                    </div>
+                </div>
+
+                <div class="trainer-row">
+                    <div class="trainer-box secondary">
+                        <strong>AI Champions</strong>
+                        <p>(1-2 from Management)</p>
+                    </div>
+                    <span class="trainer-arrow">→</span>
+                    <div class="trainer-result">
+                        <strong>Go deeper to facilitate peer learning</strong>
+                        <p>Can train other managers, lead workflow discovery sessions</p>
+                    </div>
+                </div>
+
+                <div class="trainer-row">
+                    <div class="trainer-box secondary">
+                        <strong>Trained Managers</strong>
+                        <p>(25-35 people)</p>
+                    </div>
+                    <span class="trainer-arrow">→</span>
+                    <div class="trainer-result">
+                        <strong>Cascade to their teams (~860 ICs)</strong>
+                        <p>Workflow mapping, basic AI literacy, hands-on practice</p>
+                    </div>
+                </div>
             </div>
+
+            <div class="highlight">
+                <strong>Key Insight:</strong> The 25-35 managers who report to the Cabinet know the workflows. Train them, and they become the bridge to the broader organization.
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="section">
+            <h2>Q1 2026 Training Timeline</h2>
+
+            <div class="timeline-visual">
+                <div class="timeline-phase">
+                    <h4>January</h4>
+                    <ul>
+                        <li>Cabinet training workshop</li>
+                        <li>Finalize Management training dates</li>
+                        <li>Confirm manager locations (virtual vs in-person)</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-phase">
+                    <h4>February</h4>
+                    <ul>
+                        <li>Management (Non-Warehouse) training</li>
+                        <li>Begin workflow discovery in corporate functions</li>
+                        <li>Identify AI Champion candidates</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-phase">
+                    <h4>March</h4>
+                    <ul>
+                        <li>Management (Warehouse) training</li>
+                        <li>Begin warehouse workflow discovery</li>
+                        <li>First FWI intake submissions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflow Discovery -->
+        <div class="section">
+            <h2>Workflow Discovery Process</h2>
+            <p>After training, managers facilitate workflow mapping with their teams.</p>
+
+            <h3>Why Workflow Mapping Matters</h3>
+            <p>The intake survey alone isn't enough. People report <strong>symptoms</strong>, not root causes.</p>
+            <ul>
+                <li>Someone says: "I spend 2 hours on Excel every morning"</li>
+                <li>That's the symptom</li>
+                <li>The root cause might be upstream: two systems that don't talk, a process that shouldn't exist, etc.</li>
+                <li>If you just build an agent to automate the Excel shuffle, you've optimized a broken process</li>
+            </ul>
+
+            <h3>The Process</h3>
+            <ol>
+                <li><strong>Managers identify 3-5 key workflows</strong> in their area</li>
+                <li><strong>Document each workflow</strong> step-by-step (who does what, when, why)</li>
+                <li><strong>Identify friction points</strong> - where do things slow down, cause frustration, create errors?</li>
+                <li><strong>Prioritize by impact</strong> - which friction points, if solved, would save the most time?</li>
+                <li><strong>Submit to FWI</strong> - intake survey with context from workflow mapping</li>
+            </ol>
+
+            <h3>Operational Grammar</h3>
+            <p>Teaching staff to evaluate their own workflows:</p>
+            <ul>
+                <li>Breaking work down to micro-steps</li>
+                <li>Documenting processes before identifying AI opportunities</li>
+                <li>Understanding where AI fits in existing workflows</li>
+                <li>Not everyone has Six Sigma training - this fills that gap</li>
+            </ul>
         </div>
 
         <!-- Success Metrics -->
         <div class="section">
-            <h2>Success Metrics & Tracking</h2>
+            <h2>Training Success Metrics</h2>
 
-            <h3>Leading Indicators (Track Monthly)</h3>
+            <h3>Leading Indicators (Track Immediately)</h3>
             <ul>
-                <li><strong>Attendance:</strong> % of scheduled participants who attend</li>
+                <li><strong>Attendance:</strong> Did all Cabinet/Management attend?</li>
                 <li><strong>Engagement:</strong> Session feedback scores (1-10)</li>
-                <li><strong>Practice:</strong> % using AI tools weekly (30 days post-training)</li>
+                <li><strong>Comprehension:</strong> Can they explain key concepts?</li>
                 <li><strong>Confidence:</strong> Self-reported comfort level before/after</li>
             </ul>
 
-            <h3>Lagging Indicators (Track Quarterly)</h3>
+            <h3>Lagging Indicators (Track Q2+)</h3>
             <ul>
-                <li><strong>Adoption:</strong> % of trained workers using AI daily/weekly</li>
-                <li><strong>Use Cases:</strong> # of documented success stories per function</li>
-                <li><strong>Time Savings:</strong> Self-reported hours saved per week</li>
-                <li><strong>ROI:</strong> Value generated from pilot projects</li>
+                <li><strong>FWI Submissions:</strong> Are managers submitting intake requests?</li>
+                <li><strong>Workflow Documentation:</strong> Have they mapped key processes?</li>
+                <li><strong>Team Cascade:</strong> Are they training their direct reports?</li>
+                <li><strong>Tool Adoption:</strong> Are they using AI tools weekly?</li>
             </ul>
 
-            <h3>2026 Year-End Goals</h3>
+            <h3>Q1 Goals</h3>
             <ul>
-                <li>100% of knowledge workers trained (1,200 people)</li>
-                <li>60%+ using AI tools weekly</li>
-                <li>30+ documented use cases across functions</li>
-                <li>10-15 internal trainers certified</li>
-                <li>Prompt library with 100+ function-specific prompts</li>
-                <li>Measurable ROI from 5-10 pilot projects</li>
-            </ul>
-        </div>
-
-        <!-- Risks & Mitigation -->
-        <div class="section">
-            <h2>Risks & Mitigation Strategies</h2>
-
-            <h3>Risk: Low Attendance / Engagement</h3>
-            <p><strong>Mitigation:</strong></p>
-            <ul>
-                <li>Executive sponsorship and communication</li>
-                <li>Make training mandatory with calendar holds</li>
-                <li>Schedule during work hours (not lunch/after hours)</li>
-                <li>Incentivize attendance (e.g., certificate, recognition)</li>
-            </ul>
-
-            <h3>Risk: Training Doesn't Translate to Usage</h3>
-            <p><strong>Mitigation:</strong></p>
-            <ul>
-                <li>30-day practice challenge with check-ins</li>
-                <li>Pair participants with "AI buddies" for accountability</li>
-                <li>Share success stories from early adopters</li>
-                <li>Make AI tools easily accessible (no IT friction)</li>
-            </ul>
-
-            <h3>Risk: Capacity Constraints (Can't Train Fast Enough)</h3>
-            <p><strong>Mitigation:</strong></p>
-            <ul>
-                <li>Develop internal trainers early (Q1-Q2)</li>
-                <li>Consider 4 cohorts/week in peak quarters</li>
-                <li>Offer virtual options to increase flexibility</li>
-                <li>Record sessions for on-demand learning</li>
-            </ul>
-
-            <h3>Risk: Uneven Quality Across Cohorts</h3>
-            <p><strong>Mitigation:</strong></p>
-            <ul>
-                <li>Standardized curriculum and materials</li>
-                <li>Train-the-trainer program for internal facilitators</li>
-                <li>Quality control through observation and feedback</li>
-                <li>Regular trainer calibration meetings</li>
+                <li>100% of Cabinet trained (12 people)</li>
+                <li>100% of Management trained (25-35 people)</li>
+                <li>At least 10 FWI intake submissions from management</li>
+                <li>At least 5 workflows documented per business unit</li>
+                <li>1-2 AI Champions identified and given deeper training</li>
             </ul>
         </div>
 
-    </div>
+        <!-- Footer -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px; background: #f8f9fa; border-radius: 8px;">
+            <p style="font-size: 1.1em; color: #666;">
+                Walker SCM | 2026 AI Training Plan<br>
+                <strong style="color: #8B2332;">Cabinet | Management | Individual Contributors</strong>
+            </p>
+            <p style="margin-top: 15px; font-size: 0.9em; color: #999;">
+                Last updated: December 2025
+            </p>
+        </div>
+        </div>
+    </main>
 </body>
 </html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walker SCM - Organization Chart</title>
+    <link rel="stylesheet" href="shared-nav.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        /* Page-specific styles - base handled by shared-nav.css */
+        header {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            border-bottom: 3px solid #8B2332;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        h1 {
+            color: #8B2332;
+            font-size: 1.8em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: #8B2332;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #6B1A26;
+        }
+
+        .nav-link.secondary {
+            background: #495057;
+        }
+
+        .nav-link.secondary:hover {
+            background: #343a40;
+        }
+
+        .org-layout {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+
+        .org-legend {
+            width: 280px;
+            min-width: 280px;
+            background: #f8f9fa;
+            border-right: 1px solid #e0e0e0;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .org-legend-section {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .org-legend-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #8B2332;
+        }
+
+        .org-legend-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .org-legend-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .org-legend-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .org-legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .org-legend-name {
+            font-size: 12px;
+            color: #333;
+        }
+
+        .org-legend-count {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .chart-container {
+            flex: 1;
+            overflow: auto;
+            padding: 20px;
+        }
+
+        #chart_div {
+            min-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .controls {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: #f8f9fa;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: #8B2332;
+            color: white;
+            border-color: #8B2332;
+        }
+
+        /* Google Chart node styling overrides */
+        .google-visualization-orgchart-node {
+            border-radius: 6px !important;
+            border: none !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        }
+
+        .google-visualization-orgchart-linenode {
+            border-color: #ccc !important;
+        }
+
+        .node-executive {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%) !important;
+            color: white !important;
+            padding: 12px 16px !important;
+            min-width: 180px !important;
+        }
+
+        .node-engineering {
+            background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
+            color: white !important;
+            padding: 10px 14px !important;
+            min-width: 160px !important;
+        }
+
+        .node-operations {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%) !important;
+            color: white !important;
+            padding: 10px 14px !important;
+            min-width: 160px !important;
+        }
+
+        .node-customer {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+            color: white !important;
+            padding: 10px 14px !important;
+            min-width: 160px !important;
+        }
+
+        .node-admin {
+            background: linear-gradient(135deg, #8B2332 0%, #a62d3f 100%) !important;
+            color: white !important;
+            padding: 10px 14px !important;
+            min-width: 160px !important;
+        }
+
+        .node-finance {
+            background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%) !important;
+            color: white !important;
+            padding: 10px 14px !important;
+            min-width: 160px !important;
+        }
+
+        .node-name {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .node-title {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        /* Print styles */
+        @media print {
+            header, .legend, .controls {
+                display: none;
+            }
+            .chart-container {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header"><img src="assets/logo.png" alt="Walker SCM"></div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Dashboard</div>
+            <a href="index.html">Survey Results</a>
+            <a href="insights.html">Key Insights</a>
+            <a href="competency-matrix.html">Competency Matrix</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">FWI Strategy</div>
+            <a href="fwi-strategy.html">Strategy Overview</a>
+            <a href="slides.html">Presentation (52 slides)</a>
+            <a href="training-plan.html">Training Plan</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Organization</div>
+            <a href="org-chart.html" class="active">Org Chart</a>
+            <a href="presentation-outline.html">Presentation Outline</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Data</div>
+            <a href="data/data.csv" download>Download CSV</a>
+            <a href="data/data.json" download>Download JSON</a>
+        </div>
+    </nav>
+    <main class="main-content">
+        <header>
+            <div class="header-left">
+                <div class="logo-container">
+                <img src="assets/logo.png" alt="Walker SCM Logo">
+            </div>
+            <h1>Organization Chart</h1>
+        </div>
+    </header>
+
+    <div class="org-layout">
+        <aside class="org-legend">
+            <div class="org-legend-section">
+                <h3>Corporate Functions</h3>
+                <div class="org-legend-item">
+                    <div class="org-legend-label">
+                        <div class="org-legend-color" style="background: #1a1a2e;"></div>
+                        <span class="org-legend-name">Executive</span>
+                    </div>
+                    <span class="org-legend-count">3</span>
+                </div>
+                <div class="org-legend-item">
+                    <div class="org-legend-label">
+                        <div class="org-legend-color" style="background: #6b7280;"></div>
+                        <span class="org-legend-name">Engineering</span>
+                    </div>
+                    <span class="org-legend-count">~5</span>
+                </div>
+                <div class="org-legend-item">
+                    <div class="org-legend-label">
+                        <div class="org-legend-color" style="background: #0891b2;"></div>
+                        <span class="org-legend-name">Information Technology</span>
+                    </div>
+                    <span class="org-legend-count">7</span>
+                </div>
+                <div class="org-legend-item">
+                    <div class="org-legend-label">
+                        <div class="org-legend-color" style="background: #22c55e;"></div>
+                        <span class="org-legend-name">Sales</span>
+                    </div>
+                    <span class="org-legend-count">6</span>
+                </div>
+                <div class="org-legend-item">
+                    <div class="org-legend-label">
+                        <div class="org-legend-color" style="background: #38bdf8;"></div>
+                        <span class="org-legend-name">Finance</span>
+                    </div>
+                    <span class="org-legend-count">~5</span>
+                </div>
+                <div class="org-legend-item">
+                    <div class="org-legend-label">
+                        <div class="org-legend-color" style="background: #14b8a6;"></div>
+                        <span class="org-legend-name">Administration</span>
+                    </div>
+                    <span class="org-legend-count">~5 HR, ~5 Quality, 1 Legal</span>
+                </div>
+            </div>
+
+            <div class="org-legend-section">
+                <h3>Business Units</h3>
+                <div class="org-legend-item">
+                    <div class="org-legend-label">
+                        <div class="org-legend-color" style="background: #1e3a5f;"></div>
+                        <span class="org-legend-name">Unity Solutions</span>
+                    </div>
+                    <span class="org-legend-count">~10 (Contract packaging)</span>
+                </div>
+                <div class="org-legend-item">
+                    <div class="org-legend-label">
+                        <div class="org-legend-color" style="background: #ea580c;"></div>
+                        <span class="org-legend-name">Walker Technical Solutions</span>
+                    </div>
+                    <span class="org-legend-count">~5 (Circular logistics)</span>
+                </div>
+                <div class="org-legend-item">
+                    <div class="org-legend-label">
+                        <div class="org-legend-color" style="background: #0891b2;"></div>
+                        <span class="org-legend-name">Freight Forwarding</span>
+                    </div>
+                    <span class="org-legend-count">~50</span>
+                </div>
+                <div class="org-legend-item">
+                    <div class="org-legend-label">
+                        <div class="org-legend-color" style="background: #475569;"></div>
+                        <span class="org-legend-name">Transportation</span>
+                    </div>
+                    <span class="org-legend-count">1</span>
+                </div>
+                <div class="org-legend-item">
+                    <div class="org-legend-label">
+                        <div class="org-legend-color" style="background: #991b1b;"></div>
+                        <span class="org-legend-name">Warehousing</span>
+                    </div>
+                    <span class="org-legend-count">~800</span>
+                </div>
+            </div>
+        </aside>
+
+        <div class="chart-container">
+            <div id="chart_div"></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" onclick="window.print()">Print / PDF</button>
+        <button class="control-btn" onclick="zoomIn()">Zoom In</button>
+        <button class="control-btn" onclick="zoomOut()">Zoom Out</button>
+        <button class="control-btn" onclick="resetZoom()">Reset Zoom</button>
+    </div>
+
+    <script>
+        google.charts.load('current', {packages: ['orgchart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        let currentZoom = 1;
+
+        function createNode(name, title, cssClass) {
+            return `<div class="${cssClass}"><div class="node-name">${name}</div><div class="node-title">${title}</div></div>`;
+        }
+
+        function drawChart() {
+            const data = new google.visualization.DataTable();
+            data.addColumn('string', 'Name');
+            data.addColumn('string', 'Manager');
+            data.addColumn('string', 'ToolTip');
+
+            data.addRows([
+                // Top Level
+                [{v: 'emmett', f: createNode('Emmett Walker', 'Founder & CEO', 'node-executive')}, '', 'Founder & CEO'],
+                [{v: 'claudell', f: createNode('Claudell Germain', 'President & COO, Walker SCM', 'node-executive')}, 'emmett', 'President & COO'],
+
+                // VP Level - Direct reports to President/COO
+                [{v: 'ameya', f: createNode('Ameya Dixit', 'VP of Engineering', 'node-engineering')}, 'claudell', 'VP of Engineering'],
+                [{v: 'brittany', f: createNode('Brittany Walker', 'VP of Strategic Planning', 'node-operations')}, 'claudell', 'VP of Strategic Planning'],
+                [{v: 'giorgio', f: createNode('Giorgio Laccona', 'COO, Walker Int\'l Trans (US)', 'node-operations')}, 'claudell', 'COO, Walker Int\'l Trans'],
+                [{v: 'john', f: createNode('John Henderson', 'Exec VP - Corp Dev & Strategic Partnerships', 'node-operations')}, 'claudell', 'Executive VP - Corporate Development'],
+                [{v: 'kevin_f', f: createNode('Kevin Fletcher', 'VP Trans (Ground & Model)', 'node-engineering')}, 'claudell', 'VP Transportation'],
+                [{v: 'kevin_w', f: createNode('Kevin Washington', 'VP Contract Logistics & IT', 'node-operations')}, 'claudell', 'VP Contract Logistics & IT'],
+                [{v: 'mark', f: createNode('Mark Atzbi', 'VP Finance', 'node-operations')}, 'claudell', 'VP Finance'],
+                [{v: 'richard_t', f: createNode('Richard Tracchio', 'VP Customer Development', 'node-customer')}, 'claudell', 'VP Customer Development'],
+                [{v: 'roger', f: createNode('Roger Moll', 'Executive VP Admin', 'node-admin')}, 'claudell', 'Executive VP Admin'],
+
+                // Reports to Giorgio Laccona (COO Walker Int'l Trans)
+                [{v: 'edwin', f: createNode('Edwin Koopman', 'Managing Director - NL', 'node-operations')}, 'giorgio', 'Managing Director - Netherlands'],
+                [{v: 'cesar', f: createNode('J. Cesar Castro', 'JFK Station Manager', 'node-operations')}, 'edwin', 'JFK Station Manager'],
+                [{v: 'stephen', f: createNode('Stephen Hui', 'Secretary & Dir of Business Dev - HK', 'node-operations')}, 'cesar', 'Business Development - Hong Kong'],
+                [{v: 'ted', f: createNode('Ted Budzilek', 'Dir - Corp Customer & Special Projects', 'node-operations')}, 'stephen', 'Corporate Customer & Special Projects'],
+                [{v: 'wasin', f: createNode('Wasin K.', 'Managing Director - TH', 'node-operations')}, 'ted', 'Managing Director - Thailand'],
+
+                // Reports to Kevin Washington (VP Contract Logistics & IT)
+                [{v: 'clifton', f: createNode('Clifton McDonald', 'Director of Software Applications', 'node-operations')}, 'kevin_w', 'Director of Software Applications'],
+                [{v: 'jamal', f: createNode('Jamal Jaradat', 'Sr Manager IT Infrastructure', 'node-operations')}, 'kevin_w', 'Sr Manager IT Infrastructure'],
+                [{v: 'chiledu', f: createNode('Chiledu Akoma', 'Director Contract Logistics', 'node-operations')}, 'kevin_w', 'Director Contract Logistics'],
+                [{v: 'richard_g', f: createNode('Richard Gosselin', 'Regional Manager - Finance', 'node-admin')}, 'chiledu', 'Regional Manager - Finance'],
+                [{v: 'robert_l', f: createNode('Robert Lemke', 'Regional Manager - Operations', 'node-admin')}, 'chiledu', 'Regional Manager - Operations'],
+                [{v: 'michael', f: createNode('Michael Phoung', 'Regional Manager - PMO', 'node-admin')}, 'chiledu', 'Regional Manager - PMO'],
+
+                // Reports to VP Finance
+                [{v: 'christina', f: createNode('Christina Bange', 'Controller', 'node-operations')}, 'mark', 'Controller'],
+
+                // Reports to VP Customer Development
+                [{v: 'alexander', f: createNode('Alexander Fronimos', 'VP - Global Growth Strategy', 'node-customer')}, 'richard_t', 'Vice President - Global Growth Strategy'],
+                [{v: 'courtland', f: createNode('Courtland Colding', 'VP - Client Solutions', 'node-customer')}, 'richard_t', 'Vice President - Client Solutions'],
+                [{v: 'evan', f: createNode('Evan Arrindell', 'Director - Supply Chain Solutions', 'node-customer')}, 'richard_t', 'Director - Supply Chain Solutions'],
+                [{v: 'maria', f: createNode('Maria Hill', 'Director - Sales', 'node-customer')}, 'richard_t', 'Director - Sales'],
+
+                // Reports to Executive VP Admin
+                [{v: 'andrea', f: createNode('Andrea Sollitto', 'Director - Human Resources', 'node-admin')}, 'roger', 'Director - Human Resources'],
+                [{v: 'robert_t', f: createNode('Robert Tennant', 'Director - Quality', 'node-admin')}, 'roger', 'Director - Quality'],
+                [{v: 'richard_a', f: createNode('Richard Altman', 'VP Legal', 'node-admin')}, 'roger', 'VP Legal'],
+            ]);
+
+            const chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+
+            chart.draw(data, {
+                allowHtml: true,
+                allowCollapse: true,
+                nodeClass: 'google-visualization-orgchart-node',
+                selectedNodeClass: 'google-visualization-orgchart-node-selected',
+                size: 'large'
+            });
+        }
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom + 0.1, 2);
+            document.getElementById('chart_div').style.transform = `scale(${currentZoom})`;
+            document.getElementById('chart_div').style.transformOrigin = 'top left';
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom - 0.1, 0.5);
+            document.getElementById('chart_div').style.transform = `scale(${currentZoom})`;
+            document.getElementById('chart_div').style.transformOrigin = 'top left';
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            document.getElementById('chart_div').style.transform = 'scale(1)';
+        }
+    </script>
+    </main>
+</body>
+</html>

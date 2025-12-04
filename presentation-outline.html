@@ -4,21 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Walker SCM - AI Strategy 2026+ | Presentation Outline</title>
+    <link rel="stylesheet" href="shared-nav.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #ffffff;
-            padding: 20px;
-            line-height: 1.6;
-            color: #333;
-        }
-
+        /* Page-specific styles - base handled by shared-nav.css */
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -226,18 +214,38 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>AI Strategy 2026+</h1>
-            <p class="subtitle">Powering Walker SCM's Next Chapter Through Human-Centered AI</p>
-            <p style="margin-top: 15px; font-size: 0.95em;">November 17, 2025 | Executive Presentation Outline</p>
-        </header>
-
-        <div class="nav-links">
-            <a href="index.html">Survey Dashboard</a>
+    <nav class="sidebar">
+        <div class="sidebar-header"><img src="assets/logo.png" alt="Walker SCM"></div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Dashboard</div>
+            <a href="index.html">Survey Results</a>
             <a href="insights.html">Key Insights</a>
             <a href="competency-matrix.html">Competency Matrix</a>
         </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">FWI Strategy</div>
+            <a href="fwi-strategy.html">Strategy Overview</a>
+            <a href="slides.html">Presentation (52 slides)</a>
+            <a href="training-plan.html">Training Plan</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Organization</div>
+            <a href="org-chart.html">Org Chart</a>
+            <a href="presentation-outline.html" class="active">Presentation Outline</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Data</div>
+            <a href="data/data.csv" download>Download CSV</a>
+            <a href="data/data.json" download>Download JSON</a>
+        </div>
+    </nav>
+    <main class="main-content">
+        <div class="container">
+            <header>
+                <h1>AI Strategy 2026+</h1>
+            <p class="subtitle">Powering Walker SCM's Next Chapter Through Human-Centered AI</p>
+            <p style="margin-top: 15px; font-size: 0.95em;">November 17, 2025 | Executive Presentation Outline</p>
+        </header>
 
         <!-- EXECUTIVE SUMMARY -->
         <div class="section">
@@ -642,6 +650,7 @@
                 <strong style="color: #8B2332;">Powering the Future of MBE Logistics Through Human-Centered AI</strong>
             </p>
         </div>
-    </div>
+        </div>
+    </main>
 </body>
 </html>

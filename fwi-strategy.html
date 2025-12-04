@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walker SCM - Frictionless Workforce Initiative (FWI)</title>
+    <link rel="stylesheet" href="shared-nav.css">
+    <style>
+        /* Page-specific styles - base handled by shared-nav.css */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #8B2332 0%, #6B1A26 100%);
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .nav-links {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .nav-links a {
+            display: inline-block;
+            margin: 5px 10px;
+            padding: 10px 20px;
+            background: #8B2332;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #6B1A26;
+        }
+
+        .section {
+            background: #ffffff;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .section h2 {
+            color: #8B2332;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #8B2332;
+        }
+
+        .section h3 {
+            color: #8B2332;
+            font-size: 1.4em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .definition-box {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 5px solid #8B2332;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .definition-box strong {
+            color: #8B2332;
+            font-size: 1.3em;
+        }
+
+        .pie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .pie-slice {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            border: 2px solid #8B2332;
+        }
+
+        .pie-slice.active {
+            background: #8B2332;
+            color: white;
+        }
+
+        .pie-slice.active h4 {
+            color: white;
+        }
+
+        .pie-slice h4 {
+            color: #8B2332;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .pie-slice ul {
+            margin-left: 20px;
+        }
+
+        .pie-slice li {
+            margin-bottom: 8px;
+        }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .rule-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #8B2332;
+        }
+
+        .rule-number {
+            display: inline-block;
+            background: #8B2332;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .rule-title {
+            font-weight: 600;
+            color: #333;
+            display: inline;
+        }
+
+        .rule-desc {
+            margin-top: 10px;
+            color: #666;
+        }
+
+        .org-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .org-table th,
+        .org-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .org-table th {
+            background: #8B2332;
+            color: white;
+            font-weight: 600;
+        }
+
+        .org-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .cohort-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .cohort-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cohort-box {
+            background: #8B2332;
+            color: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .cohort-box.secondary {
+            background: #6B7280;
+        }
+
+        .cohort-box.tertiary {
+            background: #9CA3AF;
+            color: #333;
+        }
+
+        .cohort-arrow {
+            font-size: 2em;
+            color: #8B2332;
+        }
+
+        .cohort-details {
+            flex: 1;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .timeline-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 4px solid #8B2332;
+            text-align: center;
+        }
+
+        .timeline-card h4 {
+            color: #8B2332;
+            margin-bottom: 10px;
+        }
+
+        .timeline-card ul {
+            text-align: left;
+            margin-left: 15px;
+            font-size: 0.9em;
+        }
+
+        .timeline-card li {
+            margin-bottom: 5px;
+        }
+
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .measurement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .measurement-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+        }
+
+        .measurement-card:hover {
+            border-color: #8B2332;
+        }
+
+        .measurement-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .measurement-card h4 {
+            color: #8B2332;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                padding: 25px 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .section {
+                padding: 20px 15px;
+            }
+
+            .timeline-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cohort-row {
+                flex-direction: column;
+            }
+
+            .cohort-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header"><img src="assets/logo.png" alt="Walker SCM"></div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Dashboard</div>
+            <a href="index.html">Survey Results</a>
+            <a href="insights.html">Key Insights</a>
+            <a href="competency-matrix.html">Competency Matrix</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">FWI Strategy</div>
+            <a href="fwi-strategy.html" class="active">Strategy Overview</a>
+            <a href="slides.html">Presentation (52 slides)</a>
+            <a href="training-plan.html">Training Plan</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Organization</div>
+            <a href="org-chart.html">Org Chart</a>
+            <a href="presentation-outline.html">Presentation Outline</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Data</div>
+            <a href="data/data.csv" download>Download CSV</a>
+            <a href="data/data.json" download>Download JSON</a>
+        </div>
+    </nav>
+    <main class="main-content">
+        <div class="container">
+            <header>
+                <h1>Frictionless Workforce Initiative</h1>
+            <p class="subtitle">2026 AI Strategy for Walker SCM</p>
+            <p style="margin-top: 15px; font-size: 0.95em;">Strategically using AI to remove friction from work</p>
+        </header>
+
+        <!-- Definition -->
+        <div class="definition-box">
+            <strong>Frictionless Workforce Initiative (FWI)</strong>
+            <p style="margin-top: 15px;">Small, quickly deployed, AI-driven systems that make work easier and increase productivity. The FWI is about strategically using AI to take places where people are trying to achieve normal things but experiencing friction, and making it smooth.</p>
+            <p style="margin-top: 15px;"><em>"This is where we didn't just help them use AI to make us more beneficial at work, we help them use AI to become what they need to become, to work in the future world and to live in the future world."</em></p>
+        </div>
+
+        <!-- Three Slices of the Pie -->
+        <div class="section">
+            <h2>Three Slices of the Pie</h2>
+            <p>The FWI focuses on the first two slices. The third slice is a separate track for Q3-Q4 2026.</p>
+
+            <div class="pie-grid">
+                <div class="pie-slice active">
+                    <h4>1. Training & AI Literacy</h4>
+                    <p><strong>Focus:</strong> Q1-Q2 2026</p>
+                    <ul>
+                        <li>Top-down education on AI tools</li>
+                        <li>Using ChatGPT, Copilot, Gemini out-of-the-box</li>
+                        <li>Prompt engineering fundamentals</li>
+                        <li>Skills that benefit work AND personal life</li>
+                    </ul>
+                </div>
+
+                <div class="pie-slice active">
+                    <h4>2. Custom Agentic Solutions</h4>
+                    <p><strong>Focus:</strong> Q1-Q2 2026</p>
+                    <ul>
+                        <li>Small, quick-deploy AI systems</li>
+                        <li>1-3 day builds only</li>
+                        <li>Internal friction points</li>
+                        <li>High ROI quick wins</li>
+                    </ul>
+                </div>
+
+                <div class="pie-slice">
+                    <h4>3. Vendor AI Integration</h4>
+                    <p><strong>Focus:</strong> Q3-Q4 2026</p>
+                    <ul>
+                        <li>AI features in existing tools</li>
+                        <li>Microsoft Copilot improvements</li>
+                        <li>Evaluate vendor roadmaps</li>
+                        <li>Leverage what's already paid for</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <strong>Key Decision:</strong> Training and agentic solutions will run in parallel, not sequentially. We're not waiting until Q2 to start building agents - both tracks begin in Q1.
+            </div>
+        </div>
+
+        <!-- Operating Rules -->
+        <div class="section">
+            <h2>FWI Operating Rules</h2>
+            <p>These six rules govern what qualifies for the Frictionless Workforce Initiative.</p>
+
+            <div class="rules-grid">
+                <div class="rule-card">
+                    <span class="rule-number">1</span>
+                    <span class="rule-title">Internal Focus Only</span>
+                    <p class="rule-desc">Focus on internal systems and processes, not customer-facing systems. Customer-based AI opportunities go through regular IT project queue.</p>
+                </div>
+
+                <div class="rule-card">
+                    <span class="rule-number">2</span>
+                    <span class="rule-title">Scope/Cost/Time Limits</span>
+                    <p class="rule-desc">Quick hitters only. 1-3 days to build an agent. No 3-6 week projects under FWI. Larger projects go to regular IT queue.</p>
+                </div>
+
+                <div class="rule-card">
+                    <span class="rule-number">3</span>
+                    <span class="rule-title">Owner Documentation</span>
+                    <p class="rule-desc">Business owner who submitted the request documents usage and handles training for their team. Not IT's responsibility.</p>
+                </div>
+
+                <div class="rule-card">
+                    <span class="rule-number">4</span>
+                    <span class="rule-title">Owner Accountability</span>
+                    <p class="rule-desc">Submitter oversees productivity measurement collection. They report hours saved, who's using it, and user stories.</p>
+                </div>
+
+                <div class="rule-card">
+                    <span class="rule-number">5</span>
+                    <span class="rule-title">Limited Submission Rights</span>
+                    <p class="rule-desc">Only department heads or certain grade levels can submit requests. Provides natural screening before requests reach IT.</p>
+                </div>
+
+                <div class="rule-card">
+                    <span class="rule-number">6</span>
+                    <span class="rule-title">Centralized Prioritization</span>
+                    <p class="rule-desc">Kevin and his leadership prioritize all submissions. They decide what gets built and in what order.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Organizational Framework -->
+        <div class="section">
+            <h2>Organizational Framework</h2>
+            <p>The organization is structured into three tiers for AI rollout purposes.</p>
+
+            <table class="org-table">
+                <tr>
+                    <th>Tier</th>
+                    <th>Who</th>
+                    <th>Size</th>
+                    <th>Training</th>
+                    <th>Role in FWI</th>
+                </tr>
+                <tr>
+                    <td><strong>Cabinet</strong></td>
+                    <td>C-Suite + VPs</td>
+                    <td>~12</td>
+                    <td>Half-day Strategic AI for Executives</td>
+                    <td>Strategy setters, budget holders, prioritize FWI requests</td>
+                </tr>
+                <tr>
+                    <td><strong>Management (Non-Warehouse)</strong></td>
+                    <td>Directors + Managers in corporate, freight forwarding</td>
+                    <td>~15-20</td>
+                    <td>Foundations in AI</td>
+                    <td>Submit FWI requests, map workflows, train teams</td>
+                </tr>
+                <tr>
+                    <td><strong>Management (Warehouse)</strong></td>
+                    <td>Regional Managers, Site Supervisors</td>
+                    <td>~10-15</td>
+                    <td>Foundations in AI</td>
+                    <td>Submit FWI requests, map workflows, train teams</td>
+                </tr>
+                <tr>
+                    <td><strong>Individual Contributors</strong></td>
+                    <td>Everyone else</td>
+                    <td>~860</td>
+                    <td>Benefits from agents; broader training Q2+</td>
+                    <td>End users of FWI solutions</td>
+                </tr>
+            </table>
+
+            <h3>Training Cohort Model</h3>
+            <p>Training flows top-down through three cohorts.</p>
+
+            <div class="cohort-visual">
+                <div class="cohort-row">
+                    <div class="cohort-box">
+                        <strong>Cohort 1: Cabinet</strong>
+                        <p>~12 people</p>
+                        <p>Half-day workshop</p>
+                    </div>
+                    <span class="cohort-arrow">→</span>
+                    <div class="cohort-details">
+                        <strong>Strategic AI for Executives</strong>
+                        <ul>
+                            <li>Evolution of Intelligence</li>
+                            <li>Traditional AI vs Generative AI</li>
+                            <li>Large Language Models</li>
+                            <li>Prompting & Prompt Engineering</li>
+                            <li>Vendor Selection & Ecosystem</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="cohort-row">
+                    <div class="cohort-box secondary">
+                        <strong>Cohort 2: Mgmt (Non-WH)</strong>
+                        <p>~15-20 people</p>
+                        <p>Foundations in AI</p>
+                    </div>
+                    <span class="cohort-arrow">→</span>
+                    <div class="cohort-details">
+                        <strong>Foundations in AI + Workflow Mapping</strong>
+                        <ul>
+                            <li>Module 1: Evolution of Intelligence</li>
+                            <li>Module 2: Traditional AI vs Generative AI</li>
+                            <li>Module 3: Large Language Models</li>
+                            <li>Module 4: Prompts & Prompt Engineering</li>
+                            <li>+ Department-Specific Workflow Discovery</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="cohort-row">
+                    <div class="cohort-box tertiary">
+                        <strong>Cohort 3: Mgmt (Warehouse)</strong>
+                        <p>~10-15 people</p>
+                        <p>Foundations in AI</p>
+                    </div>
+                    <span class="cohort-arrow">→</span>
+                    <div class="cohort-details">
+                        <strong>Foundations in AI + Workflow Mapping</strong>
+                        <ul>
+                            <li>Same curriculum as Cohort 2</li>
+                            <li>Warehouse-specific use cases</li>
+                            <li>Mobile-first considerations</li>
+                            <li>Regional operations focus</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <strong>Train-the-Trainer Model:</strong> After training, Management (Cohorts 2 & 3) facilitates workflow discovery with their teams. They become the bridge between strategy and execution.
+            </div>
+        </div>
+
+        <!-- Business Units -->
+        <div class="section">
+            <h2>Business Unit Breakdown</h2>
+
+            <table class="org-table">
+                <tr>
+                    <th>Business Unit</th>
+                    <th>Headcount</th>
+                    <th>Cabinet Member</th>
+                    <th>Pilot Priority</th>
+                </tr>
+                <tr>
+                    <td><strong>Warehousing</strong></td>
+                    <td>~800</td>
+                    <td>Kevin Washington</td>
+                    <td>High - Biggest scale opportunity</td>
+                </tr>
+                <tr>
+                    <td><strong>Freight Forwarding</strong></td>
+                    <td>~50</td>
+                    <td>Giorgio Laccona</td>
+                    <td>Medium - Documentation complexity</td>
+                </tr>
+                <tr>
+                    <td><strong>Corporate Functions</strong></td>
+                    <td>~30-40</td>
+                    <td>Various VPs</td>
+                    <td>High - Knowledge workers, quick wins</td>
+                </tr>
+                <tr>
+                    <td><strong>Unity Solutions</strong></td>
+                    <td>~10</td>
+                    <td>Brittany Walker</td>
+                    <td>Lower - Smaller team</td>
+                </tr>
+                <tr>
+                    <td><strong>Walker Technical Solutions</strong></td>
+                    <td>~5</td>
+                    <td>John Henderson</td>
+                    <td>Lower - Smaller team</td>
+                </tr>
+                <tr>
+                    <td><strong>Transportation</strong></td>
+                    <td>~1</td>
+                    <td>Kevin Fletcher</td>
+                    <td>Lower - Minimal internal headcount</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 2026 Timeline -->
+        <div class="section">
+            <h2>2026 Roadmap</h2>
+
+            <div class="timeline-grid">
+                <div class="timeline-card">
+                    <h4>Q1 2026</h4>
+                    <ul>
+                        <li>Cabinet training (half-day)</li>
+                        <li>Management cohort training</li>
+                        <li>Launch intake survey/dashboard</li>
+                        <li>Begin workflow discovery</li>
+                        <li>First FWI agent requests</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-card">
+                    <h4>Q2 2026</h4>
+                    <ul>
+                        <li>Continue workflow mapping</li>
+                        <li>Deploy first agents</li>
+                        <li>Collect productivity data</li>
+                        <li>Train-the-trainer rollout</li>
+                        <li>Identify AI Champions</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-card">
+                    <h4>Q3 2026</h4>
+                    <ul>
+                        <li>Vendor AI evaluation</li>
+                        <li>Scale successful agents</li>
+                        <li>Broader IC training begins</li>
+                        <li>Refine feedback loops</li>
+                        <li>Document ROI</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-card">
+                    <h4>Q4 2026</h4>
+                    <ul>
+                        <li>Vendor AI integration</li>
+                        <li>Year-end assessment</li>
+                        <li>Measure transformation</li>
+                        <li>User stories compilation</li>
+                        <li>Plan 2027 strategy</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Measurement -->
+        <div class="section">
+            <h2>Productivity Measurement</h2>
+            <p>Real numbers from real users, not executive estimates.</p>
+
+            <div class="measurement-grid">
+                <div class="measurement-card">
+                    <div class="measurement-icon">⏱️</div>
+                    <h4>Hours Saved</h4>
+                    <p>Weekly surveys to solution owners asking how many hours AI saved them</p>
+                </div>
+
+                <div class="measurement-card">
+                    <div class="measurement-icon">👥</div>
+                    <h4>Who's Using It</h4>
+                    <p>Track adoption rates per agent/solution deployed</p>
+                </div>
+
+                <div class="measurement-card">
+                    <div class="measurement-icon">📖</div>
+                    <h4>User Stories</h4>
+                    <p>Qualitative stories that drive cultural adoption ("they can do that, I can do it too")</p>
+                </div>
+
+                <div class="measurement-card">
+                    <div class="measurement-icon">📊</div>
+                    <h4>Dashboard</h4>
+                    <p>Frictionless submission and reporting system (must be frictionless itself)</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <strong>6-12 Month Goal:</strong> "We can literally say our feedback is that this many hours were saved... it's the people involved in using it giving their feedback of what is happening. So we get real numbers and real stories."
+            </div>
+        </div>
+
+        <!-- Intake Survey -->
+        <div class="section">
+            <h2>Intake Survey Design</h2>
+            <p>How friction points get submitted to the FWI.</p>
+
+            <h3>MVP (January Launch)</h3>
+            <ul>
+                <li>Simple form: Name, Department, Problem description, Estimated hours spent/week</li>
+                <li>AI cleanup button: "Improve my description" (helps users articulate problems better)</li>
+                <li>Department head approval workflow</li>
+            </ul>
+
+            <h3>Future Enhancements (Q2+)</h3>
+            <ul>
+                <li>Voice input option (phone-optimized for warehouse supervisors)</li>
+                <li>AI follow-up questions (like deep research agents that ask clarifying questions)</li>
+                <li>Auto-categorization of requests</li>
+                <li>Integration with productivity dashboard</li>
+            </ul>
+
+            <h3>Design Principles</h3>
+            <ul>
+                <li>Computer AND phone friendly</li>
+                <li>Frictionless to submit (practice what we preach)</li>
+                <li>Not technical requirements - just "what's your pain point?"</li>
+                <li>Screening built in via department head approval</li>
+            </ul>
+        </div>
+
+        <!-- Technology -->
+        <div class="section">
+            <h2>Technology Strategy</h2>
+
+            <h3>Platform Selection</h3>
+            <p>Need to pick ONE primary agentic platform (not spread across 6 tools).</p>
+
+            <table class="org-table">
+                <tr>
+                    <th>Platform</th>
+                    <th>Strengths</th>
+                    <th>Considerations</th>
+                </tr>
+                <tr>
+                    <td><strong>Microsoft</strong></td>
+                    <td>Already paying for it, improved significantly, agentic capabilities up</td>
+                    <td>May not be "best in class"</td>
+                </tr>
+                <tr>
+                    <td><strong>Google Gemini 2.0</strong></td>
+                    <td>Promising for agentic work</td>
+                    <td>Learning curve, integration</td>
+                </tr>
+                <tr>
+                    <td><strong>OpenAI</strong></td>
+                    <td>Staff already using, familiar</td>
+                    <td>Separate ecosystem from MS</td>
+                </tr>
+            </table>
+
+            <h3>Internal Resource</h3>
+            <p>Repurpose existing internal developer to become "agent builder":</p>
+            <ul>
+                <li>Already has programming background</li>
+                <li>Needs AI-specific training on chosen platform</li>
+                <li>Will build FWI agents based on prioritized requests</li>
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px; background: #f8f9fa; border-radius: 8px;">
+            <p style="font-size: 1.1em; color: #666;">
+                Walker SCM | Frictionless Workforce Initiative 2026<br>
+                <strong style="color: #8B2332;">Strategically using AI to remove friction from work</strong>
+            </p>
+            <p style="margin-top: 15px; font-size: 0.9em; color: #999;">
+                Last updated: December 2025
+            </p>
+        </div>
+        </div>
+    </main>
+</body>
+</html>
